@@ -1,13 +1,28 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main:: main-fragment(
+                                                ~{:: content}
+                                               )}">
 <head>
-    <title>Hello World!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+
+<div th:fragment="content">
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+    <form id="profile-form" th:action="@{/profile}" method="post">
+        <div><label> Password: <input type="password" name="password"/> </label></div>
+        <div><label> Email: <input type="text" th:value="${user.getEmail()}" name="email"/> </label></div>
+        <div><label> First name: <input type="text" th:value="${user.getFirstName()}" name="firstName"/> </label></div>
+        <div><label> Last name: <input type="text" th:value="${user.getLastName()}" name="lastName"/> </label></div>
+        <div><label> Birthday: <input type="date" th:value="${#calendars.format(user.getBirthday(), 'yyyy-MM-dd')}" name="birthday"/> </label></div>
+        <div><input type="submit" value="Save"/></div>
+    </form>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
 </body>
 </html>

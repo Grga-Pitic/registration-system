@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="main-fragment (content)">
+<head>
+    <title>Registration system</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div th:insert=${content}>
+    <p>test content</p>
+</div>
+<script src="/js/app.js" th:src="@{/js/app.js}"></script>
+</body>
+</html>
