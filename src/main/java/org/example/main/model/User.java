@@ -2,7 +2,6 @@ package org.example.main.model;
 
 import javax.persistence.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -75,9 +74,8 @@ public class User {
         return birthday;
     }
 
-    public void setBirthday(String birthday) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        this.birthday = formatter.parse(birthday);
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public boolean isActive() {

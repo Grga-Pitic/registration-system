@@ -21,10 +21,14 @@ public class MainController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/")
-    public String index() {
-        return "index";
+    @Autowired
+    @Qualifier("passwordEditorBean")
+    private PropertyEditor passwordEditor;
     }
+
+    @Autowired
+    @Qualifier("dateEditorBean")
+    private PropertyEditor dateEditor;
 
     @GetMapping("/profile")
     public String profile() {
@@ -57,4 +61,9 @@ public class MainController {
         return "redirect:/login";
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, dateEditor);
+        binder.registerCustomEditor(String.class, "password", passwordEditor);
+    }
 }
