@@ -1,7 +1,7 @@
 package org.example.main.model;
 
 import javax.persistence.*;
-import java.text.ParseException;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -13,11 +13,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
+    @Size(min=1)
     private String login;
+
+    @NotNull
+    @Size(min=1)
     private String firstName;
+
+    @NotNull
+    @Size(min=1)
     private String lastName;
+
+    @NotNull
+    @Size(min=1)
     private String email;
+
+    @NotNull
+    @Size(min=1)
     private String password;
+
+    @NotNull
     private Date birthday;
     private boolean isActive;
 
