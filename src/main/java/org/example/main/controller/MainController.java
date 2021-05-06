@@ -2,42 +2,60 @@ package org.example.main.controller;
 
 import org.example.main.model.Role;
 import org.example.main.model.User;
+import org.example.main.model.dto.UserDTO;
+import org.example.main.model.dto.UserMapper;
 import org.example.main.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
+import java.beans.PropertyEditor;
+import java.security.Principal;
+import java.text.ParseException;
 import java.util.Collections;
-import java.util.Map;
+import java.util.Date;
 
 @Controller
 public class MainController {
 
     @Autowired
-    private SimpleDateFormat format;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserMapper userMapper;
 
     @Autowired
     @Qualifier("passwordEditorBean")
     private PropertyEditor passwordEditor;
-    }
 
     @Autowired
     @Qualifier("dateEditorBean")
     private PropertyEditor dateEditor;
 
     @GetMapping("/profile")
-    public String profile() {
+    public String profile(Principal user, Model model) throws ParseException {
+        User userFromDB = userRepository.findByLogin(user.getName());
+
+        model.addAttribute("user", userFromDB);
         return "profile";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+    @PostMapping("/profile")
+    public String saveProfile(UserDTO userFromForm, Principal principal, Model model) {
+        User userFromDB = userRepository.findByLogin(principal.getName());
+
+        userMapper.updateDtoFromUser(userFromDB, userFromForm);
+
+        User savedUser = userRepository.save(userFromDB);
+
+        model.addAttribute("user", savedUser);
+        return "profile";
     }
 
     @GetMapping("/registration")
