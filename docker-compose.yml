@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7.22
+    container_name: reg-system-db
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: reg_system_task
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+      - 5005:5005
+    volumes:
+      - ./target:/src
+    depends_on:
+      - db

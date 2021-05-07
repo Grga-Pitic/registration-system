@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    platform: postgres
+    url: jdbc:mysql://reg-system-db:3306/reg_system_task?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+  mvc:
+    view:
+      suffix: .html
